@@ -1,5 +1,6 @@
-package com.el.engine.template;
+package com.el.engine.extension.template;
 
+import com.el.engine.extension.Extension;
 import com.el.engine.handle.process.StandardProcess;
 
 /**
@@ -19,12 +20,12 @@ public interface ExtendPointTemplate<Req, Resp> {
     /**
      * 适配的扩展点
      */
-
+    Class<? extends Extension>[] ofExtension();
 
     /**
      * 适配器模版列表
      * @return      扩展点适配流程
      */
-    Class<? extends StandardProcess<Req ,Resp>> adapterTemplate();
+    Class<? extends StandardProcess<Req ,Resp>>[] adapterTemplate();
 
 }

@@ -8,7 +8,7 @@ package com.el.engine.extension;
  */
 public interface Extension {
 
-    default String print(String s){
+    default Object print(String s){
         return s;
     }
 }

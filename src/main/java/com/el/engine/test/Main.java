@@ -2,6 +2,7 @@ package com.el.engine.test;
 
 import com.el.engine.extension.Extension;
 import com.el.engine.extension.ExtensionExecutor;
+import com.el.engine.identity.scheme.BusinessScheme;
 
 /**
  * <br/>
@@ -12,8 +13,10 @@ import com.el.engine.extension.ExtensionExecutor;
 public class Main {
 
     public static void main(String[] args) {
+        BusinessScheme businessScheme = new BusinessScheme("123");
+
         ExtensionExecutor<Extension> executor = new ExtensionExecutor<>();
-        String param = executor.execute((extension) -> extension.print("param"));
+        Object param = executor.execute(businessScheme, extension -> extension.print("para 12 m"));
         System.out.println(param);
     }
 }

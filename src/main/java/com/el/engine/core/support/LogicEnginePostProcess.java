@@ -21,9 +21,7 @@ import java.util.Objects;
  *
  * @author eddie.lys
  */
-@Configuration
 public class LogicEnginePostProcess implements ImportSelector {
-
 
     @Override
     public String[] selectImports(AnnotationMetadata annotationMetadata) {

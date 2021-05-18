@@ -13,7 +13,8 @@ public class ExtensionImpl implements Extension {
     public ExtensionImpl() {
     }
 
-    public String print(String s) {
+    @Override
+    public Object print(String s) {
         return s;
     }
 }

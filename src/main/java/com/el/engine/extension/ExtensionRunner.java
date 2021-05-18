@@ -2,6 +2,7 @@ package com.el.engine.extension;
 
 
 import com.el.engine.extension.callback.ExtendPointCallback;
+import com.el.engine.identity.scheme.BusinessScheme;
 import com.el.engine.test.ExtensionImpl;
 
 /**
@@ -12,11 +13,11 @@ import com.el.engine.test.ExtensionImpl;
  */
 public class ExtensionRunner<Ext, Result> {
 
-    public Result run(ExtendPointCallback<Ext, Result> callback) {
-        return callback.apply(this.getRealization());
+    public Result run(BusinessScheme bizScheme, ExtendPointCallback<Ext, Result> callback) {
+        return callback.apply(this.getRealization(bizScheme));
     }
 
-    Ext getRealization() {
+    Ext getRealization(BusinessScheme bizScheme) {
         return (Ext) new ExtensionImpl();
     }
 }

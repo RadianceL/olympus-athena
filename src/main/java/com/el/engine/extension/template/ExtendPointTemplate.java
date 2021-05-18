@@ -1,7 +1,7 @@
 package com.el.engine.extension.template;
 
 import com.el.engine.extension.Extension;
-import com.el.engine.handle.process.StandardProcess;
+import com.el.engine.core.handle.process.StandardProcess;
 
 /**
  * 扩展点模版 <br/>

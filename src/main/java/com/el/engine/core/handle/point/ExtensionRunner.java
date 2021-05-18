@@ -1,4 +1,4 @@
-package com.el.engine.extension;
+package com.el.engine.core.handle.point;
 
 
 import com.el.engine.extension.callback.ExtendPointCallback;

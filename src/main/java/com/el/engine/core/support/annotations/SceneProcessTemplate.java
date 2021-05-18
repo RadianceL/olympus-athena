@@ -11,20 +11,10 @@ import java.lang.annotation.Target;
  *
  * @author eddie.lys
  */
-@Target(ElementType.METHOD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SceneProcessTemplate {
 
-    /**
-     * 场景名称
-     * @return      场景名称
-     */
-    String scene();
 
-    /**
-     * 场景标识
-     * @return      场景标识{"key:value"}
-     */
-    String[] tag() default {};
 
 }

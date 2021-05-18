@@ -1,4 +1,4 @@
-package com.el.engine.handle.process;
+package com.el.engine.core.handle.process;
 
 /**
  * 标准流程<br/>
@@ -13,5 +13,5 @@ public interface StandardProcess<Req, Resp> {
      * @param request       请求参数
      * @param response      处理后参数
      */
-    void process(Req request, Resp response);
+    void start(Req request, Resp response);
 }

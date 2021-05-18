@@ -1,4 +1,4 @@
-package com.el.engine.handle.point;
+package com.el.engine.core.handle.point;
 
 import com.el.engine.identity.scheme.BusinessScheme;
 
@@ -10,7 +10,11 @@ import com.el.engine.identity.scheme.BusinessScheme;
  */
 public interface ExtendPoint {
 
-
+    /**
+     * 获取业务定义
+     * @return      业务定义
+     */
+    BusinessScheme vertifyBusinessScheme();
 
 }
 

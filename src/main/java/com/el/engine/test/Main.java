@@ -1,7 +1,7 @@
 package com.el.engine.test;
 
 import com.el.engine.extension.Extension;
-import com.el.engine.extension.ExtensionExecutor;
+import com.el.engine.core.handle.point.ExtensionExecutor;
 import com.el.engine.identity.scheme.BusinessScheme;
 
 /**

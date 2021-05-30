@@ -23,8 +23,9 @@ public class BusinessScheme {
      */
     private final Map<String, String> TAG_MAP = new HashMap<>(8);
 
-    public BusinessScheme(String biz) {
+    public BusinessScheme(String scene, String biz) {
         this.biz = biz;
+        this.scene = scene;
     }
 
     public String getBiz() {
@@ -33,10 +34,6 @@ public class BusinessScheme {
 
     public String getScene() {
         return scene;
-    }
-
-    public void setScene(String scene) {
-        this.scene = scene;
     }
 
     /**
@@ -56,7 +53,7 @@ public class BusinessScheme {
         return TAG_MAP;
     }
 
-    public static BusinessScheme of(String biz) {
-        return new BusinessScheme(biz);
+    public static BusinessScheme of(String scene, String biz) {
+        return new BusinessScheme(scene, biz);
     }
 }

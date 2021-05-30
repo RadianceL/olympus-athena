@@ -10,6 +10,12 @@ import com.el.engine.identity.scheme.BusinessScheme;
  */
 public interface ProcessEngine {
 
+    /**
+     * 启动流程
+     * @param businessScheme    业务方案
+     * @param req               请求
+     * @param resp              返回值
+     */
     void start(BusinessScheme businessScheme, Object req, Object resp);
 
 }

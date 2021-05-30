@@ -14,12 +14,24 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SceneProcess {
-
+    /**
+     * 场景
+     * @return  场景名称
+     */
     String scene();
-
+    /**
+     * 场景描述
+     * @return      场景描述
+     */
+    String desc() default "";
     /**
      * 场景标识
-     * @return      场景标识{"key:value"}
+     * @return      场景标识 json格式
      */
-    String[] tag() default {};
+    String tag() default "{}";
+    /**
+     * 是否懒加载
+     * @return          是否懒加载流程定义
+     */
+    boolean lazyLoading() default false;
 }

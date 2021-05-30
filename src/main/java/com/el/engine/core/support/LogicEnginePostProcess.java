@@ -51,11 +51,13 @@ public class LogicEnginePostProcess implements ImportSelector {
         }
         EngineApplicationSystem.setSceneProcessTemplateClasses(sceneProcessTemplateClasses);
 
-        // 初始化扩展点 -> 获取项目启动路径所在包
+        // 初始化场景定义 -> 获取项目启动路径所在包
         String className = annotationMetadata.getClassName();
         String applicationBasePackage = className.substring(0, className.lastIndexOf("."));
         EngineApplicationSystem.setApplicationBasePackage(applicationBasePackage);
+        // 获取场景定义配置类
         Set<String> packageClass = PackageScanUtils.findPackageClass(applicationBasePackage, ExtendPointDefine.class);
+        // 场景初始化解析流程
         packageClass.add(LogicEngineInitProcess.class.getName());
         return packageClass.toArray(new String[]{});
     }

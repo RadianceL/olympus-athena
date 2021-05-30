@@ -15,6 +15,16 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SceneProcessTemplate {
 
+    /**
+     * 描述 - 无实际意义
+     * @return          描述
+     */
+    String value() default "";
 
+    /**
+     * 是否懒加载
+     * @return          是否懒加载流程定义
+     */
+    boolean lazyLoading() default false;
 
 }

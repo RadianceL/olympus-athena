@@ -13,5 +13,5 @@ public interface StandardProcess<Req, Resp> {
      * @param request       请求参数
      * @param response      处理后参数
      */
-    void start(Req request, Resp response);
+    void process(Req request, Resp response);
 }

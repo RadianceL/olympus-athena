@@ -4,8 +4,10 @@ import com.el.engine.core.data.EngineApplicationSystem;
 import com.el.engine.core.data.SceneConfiguration;
 import com.el.engine.core.support.annotations.SceneProcess;
 import com.el.engine.core.support.annotations.SceneProcessTemplate;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.annotation.Order;
 
-import javax.annotation.PostConstruct;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Objects;
@@ -16,10 +18,11 @@ import java.util.Objects;
  *
  * @author eddie.lys
  */
-public class LogicEngineInitProcess {
+@Order(Integer.MIN_VALUE)
+public class LogicEngineInitProcess implements ApplicationRunner {
 
-    @PostConstruct
-    public void init() {
+    @Override
+    public void run(ApplicationArguments args) {
         Class<?>[] sceneProcessTemplateClasses = EngineApplicationSystem.getSceneProcessTemplateClasses();
         initSceneProcessTemplate(sceneProcessTemplateClasses);
     }
@@ -63,5 +66,4 @@ public class LogicEngineInitProcess {
             }
         }
     }
-
 }

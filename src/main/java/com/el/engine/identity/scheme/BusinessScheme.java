@@ -10,7 +10,10 @@ import java.util.Map;
  * @author eddie.lys
  */
 public class BusinessScheme {
-
+    /**
+     * 场景
+     */
+    private String scene;
     /**
      * 业务标识
      */
@@ -27,6 +30,15 @@ public class BusinessScheme {
     public String getBiz() {
         return biz;
     }
+
+    public String getScene() {
+        return scene;
+    }
+
+    public void setScene(String scene) {
+        this.scene = scene;
+    }
+
     /**
      * 添加标记
      * @param key           标记key

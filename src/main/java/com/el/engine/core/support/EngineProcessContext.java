@@ -26,11 +26,11 @@ public class EngineProcessContext {
     /**
      * 标准流程对象<类名, 标准流程定义实例>
      */
-    private static final Map<String, StandardProcess<?, ?>> STANDARD_PROCESS_OBJECT_CACHE = new ConcurrentHashMap<>(64);
+    private static final Map<String, StandardProcess<Object, Object>> STANDARD_PROCESS_OBJECT_CACHE = new ConcurrentHashMap<>(64);
     /**
      * 标准流程定义<场景, 标准流程定义实例>
      */
-    private static final Map<String, List<StandardProcess<?, ?>>> STANDARD_PROCESS_DEFINE_CACHE = new ConcurrentHashMap<>(16);
+    private static final Map<String, List<StandardProcess<Object, Object>>> STANDARD_PROCESS_DEFINE_CACHE = new ConcurrentHashMap<>(16);
 
     private static final Object LOCK = new Object();
 
@@ -50,7 +50,7 @@ public class EngineProcessContext {
         initStandardProcess(sceneConfiguration);
     }
 
-    public static List<StandardProcess<?, ?>> getEngineProcessDefine(String scene) {
+    public static List<StandardProcess<Object, Object>> getEngineProcessDefine(String scene) {
         SceneConfiguration<?, ?> sceneConfiguration = ENGINE_PROCESS_CACHE.get(scene);
         if (Objects.isNull(sceneConfiguration)) {
             throw new RuntimeException("MLE - un_know scene define error");
@@ -76,7 +76,7 @@ public class EngineProcessContext {
             STANDARD_PROCESS_DEFINE_CACHE.put(sceneConfiguration.getScene(), new ArrayList<>());
         }
 
-        List<StandardProcess<?, ?>> standardProcessList = new ArrayList<>();
+        List<StandardProcess<Object, Object>> standardProcessList = new ArrayList<>();
         for (String className : sceneProcessList) {
             // 判断是否已经加载该类
             if (Objects.nonNull(STANDARD_PROCESS_OBJECT_CACHE.get(className))) {
@@ -85,7 +85,7 @@ public class EngineProcessContext {
             }
             try {
                 Class<?> sceneProcessClass = Class.forName(className);
-                StandardProcess<?, ?> sceneProcess = (StandardProcess<?, ?>) sceneProcessClass.newInstance();
+                StandardProcess<Object, Object> sceneProcess = (StandardProcess<Object, Object>) sceneProcessClass.newInstance();
                 STANDARD_PROCESS_OBJECT_CACHE.put(className, sceneProcess);
                 standardProcessList.add(sceneProcess);
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {

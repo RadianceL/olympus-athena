@@ -8,6 +8,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.SystemPropertyUtils;
 
 import java.lang.annotation.Annotation;
@@ -30,33 +31,14 @@ public class PackageScanUtils {
     protected static final String DEFAULT_RESOURCE_PATTERN = "**/*.class";
 
     /**
-     * 结合spring的类扫描方式 根据需要扫描的包路径及相应的注解，获取最终测method集合 仅返回public方法，如果方法是非public类型的，不会被返回
-     * 可以扫描工程下的class文件及jar中的class文件
-     */
-    public static Set<Method> findClassAnnotationMethods(String scanPackages, Class<? extends Annotation> annotation) {
-        // 获取所有的类
-        Set<String> clazzSet = findPackageClass(scanPackages, null);
-        Set<Method> methods = new HashSet<>();
-        // 遍历类，查询相应的annotation方法
-        for (String clazz : clazzSet) {
-            try {
-                Set<Method> ms = findAnnotationMethods(clazz, annotation);
-                methods.addAll(ms);
-            } catch (ClassNotFoundException ignore) {
-            }
-        }
-        return methods;
-    }
-
-    /**
      * 根据扫描包的,查询下面的所有类
      *
      * @param scanPackages 扫描的package路径
      */
     public static Set<String> findPackageClass(String scanPackages, Class<? extends Annotation> anno) {
-        Set<String> clazzSet = new HashSet<>();
+        Set<String> classSet = new HashSet<>();
         if (StringUtils.isBlank(scanPackages)) {
-            return clazzSet;
+            return classSet;
         }
         // 验证及排重包路径,避免父子路径多次扫描
         Set<String> packages = checkPackage(scanPackages);
@@ -67,29 +49,29 @@ public class PackageScanUtils {
             if (StringUtils.isBlank(basePackage)) {
                 continue;
             }
+            String basePackagePlaceholders = SystemPropertyUtils.resolvePlaceholders(basePackage);
             String packageSearchPath =
                     ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX
-                            + org.springframework.util.ClassUtils.convertClassNameToResourcePath(
-                            SystemPropertyUtils.resolvePlaceholders(basePackage))
+                            + ClassUtils.convertClassNameToResourcePath(basePackagePlaceholders)
                             + "/"
                             + DEFAULT_RESOURCE_PATTERN;
             try {
                 Resource[] resources = resourcePatternResolver.getResources(packageSearchPath);
                 for (Resource resource : resources) {
                     // 检查resource，这里的resource都是class
-                    String clazz = loadClassName(metadataReaderFactory, resource);
+                    String className = loadClassName(metadataReaderFactory, resource);
                     if (Objects.nonNull(anno)) {
-                        if (Objects.isNull(Class.forName(clazz).getAnnotation(anno))) {
+                        if (Objects.isNull(Class.forName(className).getAnnotation(anno))) {
                             continue;
                         }
                     }
-                    clazzSet.add(clazz);
+                    classSet.add(className);
                 }
             } catch (Exception e) {
                 log.error("获取包下面的类信息失败,package:" + basePackage, e);
             }
         }
-        return clazzSet;
+        return classSet;
     }
 
     /**
@@ -103,7 +85,6 @@ public class PackageScanUtils {
         if (StringUtils.isBlank(scanPackages)) {
             return packages;
         }
-
         // 排重路径
         Collections.addAll(packages, scanPackages.split(","));
         for (String pInArr : packages.toArray(new String[0])) {
@@ -149,24 +130,5 @@ public class PackageScanUtils {
             log.error("根据resource获取类名称失败", e);
         }
         return null;
-    }
-
-    /**
-     * 把action下面的所有method遍历一次，标记他们是否需要进行敏感词验证 如果需要，放入cache中
-     */
-    public static Set<Method> findAnnotationMethods(String fullClassName, Class<? extends Annotation> anno) throws ClassNotFoundException {
-        Set<Method> methodSet = new HashSet<>();
-        Class<?> clz = Class.forName(fullClassName);
-        Method[] methods = clz.getDeclaredMethods();
-        for (Method method : methods) {
-            if (method.getModifiers() != Modifier.PUBLIC) {
-                continue;
-            }
-            Annotation annotation = method.getAnnotation(anno);
-            if (annotation != null) {
-                methodSet.add(method);
-            }
-        }
-        return methodSet;
     }
 }

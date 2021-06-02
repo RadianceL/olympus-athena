@@ -35,7 +35,7 @@ public class PackageScanUtils {
      *
      * @param scanPackages 扫描的package路径
      */
-    public static Set<String> findPackageClass(String scanPackages, Class<? extends Annotation> anno) {
+    public static Set<String> findPackageClass(String scanPackages, Class<? extends Annotation> annotationClass) {
         Set<String> classSet = new HashSet<>();
         if (StringUtils.isBlank(scanPackages)) {
             return classSet;
@@ -60,8 +60,8 @@ public class PackageScanUtils {
                 for (Resource resource : resources) {
                     // 检查resource，这里的resource都是class
                     String className = loadClassName(metadataReaderFactory, resource);
-                    if (Objects.nonNull(anno)) {
-                        if (Objects.isNull(Class.forName(className).getAnnotation(anno))) {
+                    if (Objects.nonNull(annotationClass)) {
+                        if (Objects.isNull(Class.forName(className).getAnnotation(annotationClass))) {
                             continue;
                         }
                     }

@@ -119,8 +119,7 @@ public class PackageScanUtils {
      * @param metadataReaderFactory spring中用来读取resource为class的工具
      * @param resource              这里的资源就是一个Class
      */
-    private static String loadClassName(
-            MetadataReaderFactory metadataReaderFactory, Resource resource) {
+    private static String loadClassName(MetadataReaderFactory metadataReaderFactory, Resource resource) {
         try {
             if (resource.isReadable()) {
                 MetadataReader metadataReader = metadataReaderFactory.getMetadataReader(resource);

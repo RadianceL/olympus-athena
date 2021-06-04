@@ -2,6 +2,7 @@ package com.el.engine.core.support;
 
 import com.el.engine.core.data.SceneConfiguration;
 import com.el.engine.core.handle.process.StandardProcess;
+import com.el.engine.utils.UncheckCastUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;
 
@@ -60,7 +61,9 @@ public class EngineProcessContext {
             // 非懒加载模式必定存在
             return STANDARD_PROCESS_DEFINE_CACHE.get(scene);
         }
+        // 如果当前场景不存在，且场景定义为懒加载模式，则判定是否需要初始化
         if (Objects.isNull(STANDARD_PROCESS_DEFINE_CACHE.get(scene))) {
+            // 理论上锁不会被升级，维持轻量级锁
             synchronized (LOCK) {
                 // 防止多线程同时触发初始化同一个流程
                 initStandardProcess(sceneConfiguration);
@@ -75,7 +78,6 @@ public class EngineProcessContext {
         if (CollectionUtils.isEmpty(sceneProcessList)) {
             STANDARD_PROCESS_DEFINE_CACHE.put(sceneConfiguration.getScene(), new ArrayList<>());
         }
-
         List<StandardProcess<Object, Object>> standardProcessList = new ArrayList<>();
         for (String className : sceneProcessList) {
             // 判断是否已经加载该类
@@ -85,7 +87,7 @@ public class EngineProcessContext {
             }
             try {
                 Class<?> sceneProcessClass = Class.forName(className);
-                StandardProcess<Object, Object> sceneProcess = (StandardProcess<Object, Object>) sceneProcessClass.newInstance();
+                StandardProcess<Object, Object> sceneProcess = UncheckCastUtil.castUncheckedObject(sceneProcessClass.newInstance());
                 STANDARD_PROCESS_OBJECT_CACHE.put(className, sceneProcess);
                 standardProcessList.add(sceneProcess);
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {

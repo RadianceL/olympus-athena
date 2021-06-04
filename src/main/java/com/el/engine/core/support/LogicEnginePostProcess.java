@@ -1,20 +1,17 @@
 package com.el.engine.core.support;
 
 import com.el.engine.core.data.EngineApplicationSystem;
-import com.el.engine.core.data.SceneConfiguration;
 import com.el.engine.core.support.annotations.EnableExtendPointAutoConfiguration;
-import com.el.engine.core.support.annotations.ExtendPointDefine;
-import com.el.engine.core.support.annotations.SceneProcess;
-import com.el.engine.core.support.annotations.SceneProcessTemplate;
+import com.el.engine.core.support.annotations.ExtensionTemplate;
+import com.el.engine.extension.template.Template;
 import com.el.engine.utils.PackageScanUtils;
+import com.el.engine.utils.UncheckCastUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.MultiValueMap;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -44,19 +41,21 @@ public class LogicEnginePostProcess implements ImportSelector {
             log.info("logic engine can`t find any process configuration");
             return new String[]{};
         }
-        Class<?>[] sceneProcessTemplateClasses = (Class<?>[]) values.get(0);
+        Class<Template>[] sceneProcessTemplateClasses = UncheckCastUtil.castUncheckedObject(values.get(0));
         if (Objects.isNull(sceneProcessTemplateClasses) || sceneProcessTemplateClasses.length == 0) {
             log.info("logic engine can`t find any process configuration");
             return new String[]{};
         }
-        EngineApplicationSystem.setSceneProcessTemplateClasses(sceneProcessTemplateClasses);
+        EngineApplicationSystem.setSceneExtensionProcessClasses(sceneProcessTemplateClasses);
 
         // 初始化场景定义 -> 获取项目启动路径所在包
         String className = annotationMetadata.getClassName();
         String applicationBasePackage = className.substring(0, className.lastIndexOf("."));
         EngineApplicationSystem.setApplicationBasePackage(applicationBasePackage);
         // 获取场景定义配置类
-        Set<String> packageClass = PackageScanUtils.findPackageClass(applicationBasePackage, ExtendPointDefine.class);
+        log.info("MLE - scan application ExtendPointDefine class");
+        Set<String> packageClass = PackageScanUtils.findPackageClass(applicationBasePackage, ExtensionTemplate.class);
+        EngineApplicationSystem.setSceneExtensionTemplateClasses(packageClass);
         // 场景初始化解析流程
         packageClass.add(LogicEngineInitProcess.class.getName());
         return packageClass.toArray(new String[]{});

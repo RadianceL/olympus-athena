@@ -4,6 +4,7 @@ import com.el.engine.core.data.EngineApplicationSystem;
 import com.el.engine.core.data.SceneConfiguration;
 import com.el.engine.core.support.annotations.SceneProcess;
 import com.el.engine.core.support.annotations.SceneProcessTemplate;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
@@ -18,12 +19,13 @@ import java.util.Objects;
  *
  * @author eddie.lys
  */
+@Slf4j
 @Order(Integer.MIN_VALUE)
 public class LogicEngineInitProcess implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        Class<?>[] sceneProcessTemplateClasses = EngineApplicationSystem.getSceneProcessTemplateClasses();
+        Class<?>[] sceneProcessTemplateClasses = EngineApplicationSystem.getSceneExtensionProcessClasses();
         initSceneProcessTemplate(sceneProcessTemplateClasses);
     }
 

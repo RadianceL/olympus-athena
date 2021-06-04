@@ -13,7 +13,7 @@ public class BusinessScheme {
     /**
      * 场景
      */
-    private String scene;
+    private final String scene;
     /**
      * 业务标识
      */

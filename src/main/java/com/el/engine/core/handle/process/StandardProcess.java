@@ -1,5 +1,7 @@
 package com.el.engine.core.handle.process;
 
+import com.el.engine.identity.scheme.BusinessScheme;
+
 /**
  * 标准流程<br/>
  * since 2021/4/22
@@ -13,5 +15,5 @@ public interface StandardProcess<Req, Resp> {
      * @param request       请求参数
      * @param response      处理后参数
      */
-    void process(Req request, Resp response);
+    void process(BusinessScheme businessScheme,  Req request, Resp response);
 }

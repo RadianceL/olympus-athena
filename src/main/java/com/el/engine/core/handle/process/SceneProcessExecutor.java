@@ -4,6 +4,7 @@ import com.el.engine.core.support.EngineProcessContext;
 import com.el.engine.identity.scheme.BusinessScheme;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 场景流程引擎 <br/>
@@ -15,10 +16,13 @@ public class SceneProcessExecutor implements ProcessEngine {
 
     @Override
     public void start(BusinessScheme businessScheme, Object req, Object resp) {
+        if (Objects.isNull(businessScheme)) {
+            throw new RuntimeException("MLE - business scheme can not be null");
+        }
         List<StandardProcess<Object, Object>> engineProcessDefine =
                 EngineProcessContext.getEngineProcessDefine(businessScheme.getScene());
         for (StandardProcess<Object, Object> standardProcess : engineProcessDefine) {
-            standardProcess.process(req, resp);
+            standardProcess.process(businessScheme, req, resp);
         }
     }
 }

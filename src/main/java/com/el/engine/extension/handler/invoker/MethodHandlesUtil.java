@@ -30,6 +30,8 @@ public class MethodHandlesUtil {
     private static final int ALLOWED_MODES = MethodHandles.Lookup.PRIVATE | MethodHandles.Lookup.PROTECTED
             | MethodHandles.Lookup.PACKAGE | MethodHandles.Lookup.PUBLIC;
 
+    private static final String PRIVATE_LOOK_UP_IN = "privateLookupIn";
+
     private static Constructor<MethodHandles.Lookup> java8LookupConstructor;
 
     private static Method privateLookupInMethod;
@@ -38,7 +40,7 @@ public class MethodHandlesUtil {
         //先查询jdk9 开始提供的java.lang.invoke.MethodHandles.privateLookupIn方法,
         //如果没有说明是jdk8的版本.(不考虑jdk8以下版本)
         try {
-            privateLookupInMethod = MethodHandles.class.getMethod("privateLookupIn", Class.class, MethodHandles.Lookup.class);
+            privateLookupInMethod = MethodHandles.class.getMethod(PRIVATE_LOOK_UP_IN, Class.class, MethodHandles.Lookup.class);
         } catch (NoSuchMethodException e) {
             privateLookupInMethod = null;
         }

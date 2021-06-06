@@ -1,6 +1,7 @@
 package com.el.engine.core.handle.point;
 
 import com.el.engine.core.support.EngineExtensionContext;
+import com.el.engine.extension.Extension;
 import com.el.engine.extension.callback.ExtendPointCallback;
 import com.el.engine.identity.scheme.BusinessScheme;
 import com.el.engine.utils.UncheckCastUtil;
@@ -18,6 +19,7 @@ public class ExtensionRunner<Ext, Result> {
     }
 
     Ext getRealization(BusinessScheme bizScheme, String extClassName) {
-        return UncheckCastUtil.castUncheckedObject(EngineExtensionContext.getExtension(bizScheme, extClassName));
+        Extension extension = EngineExtensionContext.getExtension(bizScheme, extClassName);
+        return UncheckCastUtil.castUncheckedObject(extension);
     }
 }

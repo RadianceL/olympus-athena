@@ -2,6 +2,7 @@ package com.el.engine.test;
 
 import com.el.engine.extension.Extension;
 import com.el.engine.core.handle.point.ExtensionExecutor;
+import com.el.engine.extension.handler.invoker.DefaultExtensionHelper;
 import com.el.engine.identity.scheme.BusinessScheme;
 
 /**
@@ -17,5 +18,8 @@ public class Main {
         ExtensionExecutor<TestExtension> executor = new ExtensionExecutor<>(TestExtension.class);
         String param = executor.execute(businessScheme, extension -> extension.print("para 12 m"));
         System.out.println(param);
+
+        Extension invoker = DefaultExtensionHelper.defaultExtensionInvoker(Extension.class);
+        System.out.println(invoker.order());
     }
 }

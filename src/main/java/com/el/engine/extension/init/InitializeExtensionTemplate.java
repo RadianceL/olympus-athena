@@ -29,6 +29,8 @@ public class InitializeExtensionTemplate implements ApplicationListener<ContextR
                     throw new RuntimeException("MTL - ext template new instance error", e);
                 }
             }
+            // 刷新内嵌模版上下文
+            EngineExtensionContext.refreshNestedTemplateContext();
         }
     }
 }

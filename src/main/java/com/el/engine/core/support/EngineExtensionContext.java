@@ -1,6 +1,7 @@
 package com.el.engine.core.support;
 
 import com.el.engine.extension.Extension;
+import com.el.engine.extension.handler.DefaultExtensionContext;
 import com.el.engine.extension.handler.ExtensionTemplateHandler;
 import com.el.engine.extension.handler.NestedTemplateHandler;
 import com.el.engine.extension.handler.TemplateHandler;
@@ -9,6 +10,7 @@ import com.el.engine.extension.template.NestedTemplate;
 import com.el.engine.extension.template.Template;
 import com.el.engine.identity.scheme.BusinessScheme;
 import com.el.engine.utils.UncheckCastUtil;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 
@@ -37,10 +39,18 @@ public class EngineExtensionContext {
      */
     private static ApplicationContext applicationContext;
 
-    public static void setApplicationContext(ApplicationContext applicationContext) {
+    /**
+     * 当项目启动时保证该方法被调用且 applicationContext 不为空
+     * @param applicationContext                    spring上下文
+     */
+    public static void setApplicationContext(@NonNull ApplicationContext applicationContext) {
         EngineExtensionContext.applicationContext = applicationContext;
     }
 
+    /**
+     * 加载模版配置
+     * @param template      模版对象
+     */
     public static void addExtensionTemplate(Template template) {
         if (Objects.isNull(applicationContext)) {
             throw new RuntimeException("MLE - application context is null error");
@@ -56,6 +66,17 @@ public class EngineExtensionContext {
 
     public static Extension getExtension(BusinessScheme businessScheme, String extClassName) {
         TemplateHandler templateHandler = ENGINE_EXTENSION_RUNNER_MAP.get(businessScheme.getBiz());
+        if (Objects.isNull(templateHandler)) {
+            return DefaultExtensionContext.getDefaultExtension(extClassName);
+        }
+        if (templateHandler instanceof ExtensionTemplateHandler) {
+            ExtensionTemplateHandler extensionTemplateHandler = (ExtensionTemplateHandler) templateHandler;
+            if (extensionTemplateHandler.adapterTemplate(businessScheme)) {
+                return templateHandler.getExtension(extClassName);
+            }else {
+                return DefaultExtensionContext.getDefaultExtension(extClassName);
+            }
+        }
         return templateHandler.getExtension(extClassName);
     }
 
@@ -92,5 +113,9 @@ public class EngineExtensionContext {
         }
     }
 
+
+    public static void refreshNestedTemplateContext() {
+
+    }
 
 }

@@ -2,7 +2,8 @@ package com.el.engine.core.handle.point;
 
 import com.el.engine.extension.callback.ExtendPointCallback;
 import com.el.engine.identity.scheme.BusinessScheme;
-import org.springframework.core.ResolvableType;
+
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 扩展点执行器 <br/>
@@ -12,15 +13,14 @@ import org.springframework.core.ResolvableType;
  */
 public class ExtensionExecutor<Ext>  {
 
-    private Class<?> extClass;
+    private final String extClassName;
 
     public ExtensionExecutor(Class<?> extClass){
-        this.extClass = extClass;
+        this.extClassName = extClass.getName();
     }
 
     public <Result> Result execute(BusinessScheme bizScheme, ExtendPointCallback<Ext, Result> callback) {
         ExtensionRunner<Ext, Result> extensionRunner = new ExtensionRunner<>();
-        String extClassName = extClass.getName();
         return extensionRunner.run(bizScheme, extClassName, callback);
     }
 }

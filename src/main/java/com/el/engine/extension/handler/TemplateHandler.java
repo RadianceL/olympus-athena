@@ -25,7 +25,8 @@ public class TemplateHandler {
         Class<? extends Extension>[] classes = template.ofExtension();
         for (Class<? extends Extension> extensionClass : classes) {
             Extension extension = applicationContext.getBean(extensionClass);
-            extensions.put(extensionClass.getName(), extension);
+            Class<?> defaultExtension = findDefaultExtension(extensionClass);
+            extensions.put(defaultExtension.getName(), extension);
             // 初始化扩展点的默认实现
             initDefaultExtension(extensionClass);
         }
@@ -58,8 +59,8 @@ public class TemplateHandler {
             return findDefaultExtension(superclass);
         }
         for (Class<?> extInterface : interfaces) {
-            if (Objects.nonNull(extInterface) && extInterface.equals(Extension.class)) {
-                return extensionClass;
+            if (Objects.nonNull(extInterface) && extInterface.getInterfaces()[0].equals(Extension.class)) {
+                return extInterface;
             }
         }
 

@@ -3,6 +3,7 @@ package com.el.engine.core.support;
 import com.el.engine.core.data.EngineApplicationSystem;
 import com.el.engine.core.support.annotations.EnableExtendPointAutoConfiguration;
 import com.el.engine.core.support.annotations.Template;
+import com.el.engine.extension.init.LogicEngineInitProcess;
 import com.el.engine.utils.PackageScanUtils;
 import com.el.engine.utils.UncheckCastUtil;
 import lombok.extern.slf4j.Slf4j;

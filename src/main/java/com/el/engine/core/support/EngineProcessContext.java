@@ -3,7 +3,11 @@ package com.el.engine.core.support;
 import com.el.engine.core.data.SceneConfiguration;
 import com.el.engine.core.handle.process.StandardProcess;
 import com.el.engine.utils.UncheckCastUtil;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -34,6 +38,16 @@ public class EngineProcessContext {
     private static final Map<String, List<StandardProcess<Object, Object>>> STANDARD_PROCESS_DEFINE_CACHE = new ConcurrentHashMap<>(16);
 
     private static final Object LOCK = new Object();
+
+    private static ConfigurableApplicationContext configurableApplicationContext;
+
+    private static BeanDefinitionRegistry beanDefinitionRegistry;
+
+    public static void setBeanDefinitionRegistry(@NonNull ConfigurableApplicationContext beanDefinitionRegistry) {
+        EngineProcessContext.configurableApplicationContext = beanDefinitionRegistry;
+        EngineProcessContext.beanDefinitionRegistry = (BeanDefinitionRegistry) beanDefinitionRegistry.getBeanFactory();
+
+    }
 
     public static void addEngineProcessDefine(SceneConfiguration<?, ?> sceneConfiguration) {
         boolean lazyLoadingModel = sceneConfiguration.getLazyLoadingIfPresent();
@@ -87,10 +101,15 @@ public class EngineProcessContext {
             }
             try {
                 Class<?> sceneProcessClass = Class.forName(className);
-                StandardProcess<Object, Object> sceneProcess = UncheckCastUtil.castUncheckedObject(sceneProcessClass.newInstance());
+                BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(sceneProcessClass);
+                beanDefinitionRegistry.registerBeanDefinition(sceneConfiguration.getScene() + sceneProcessClass.getName(),
+                        beanDefinitionBuilder.getBeanDefinition());
+
+                StandardProcess<Object, Object> sceneProcess =
+                        UncheckCastUtil.castUncheckedObject(configurableApplicationContext.getBean(sceneConfiguration.getScene() + sceneProcessClass.getName()));
                 STANDARD_PROCESS_OBJECT_CACHE.put(className, sceneProcess);
                 standardProcessList.add(sceneProcess);
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+            } catch (ClassNotFoundException e) {
                 throw new RuntimeException("MLE - init standard process error", e);
             }
         }

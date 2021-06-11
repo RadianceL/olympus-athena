@@ -1,12 +1,15 @@
-package com.el.engine.core.support;
+package com.el.engine.extension.init;
 
 import com.el.engine.core.data.EngineApplicationSystem;
 import com.el.engine.core.data.SceneConfiguration;
+import com.el.engine.core.support.EngineProcessContext;
 import com.el.engine.core.support.annotations.SceneProcess;
 import com.el.engine.core.support.annotations.SceneProcessTemplate;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.annotation.Order;
 
 import java.lang.reflect.InvocationTargetException;
@@ -21,12 +24,16 @@ import java.util.Objects;
  */
 @Slf4j
 @Order(Integer.MIN_VALUE)
-public class LogicEngineInitProcess implements ApplicationRunner {
+public class LogicEngineInitProcess implements ApplicationListener<ContextRefreshedEvent> {
 
     @Override
-    public void run(ApplicationArguments args) {
-        Class<?>[] sceneProcessTemplateClasses = EngineApplicationSystem.getSceneExtensionProcessClasses();
-        initSceneProcessTemplate(sceneProcessTemplateClasses);
+    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+        ConfigurableApplicationContext applicationContext = (ConfigurableApplicationContext) contextRefreshedEvent.getApplicationContext();
+        if (applicationContext.getParent() == null) {
+            EngineProcessContext.setBeanDefinitionRegistry(applicationContext);
+            Class<?>[] sceneProcessTemplateClasses = EngineApplicationSystem.getSceneExtensionProcessClasses();
+            initSceneProcessTemplate(sceneProcessTemplateClasses);
+        }
     }
 
     private void initSceneProcessTemplate(Class<?>[] sceneProcessTemplateClasses) {

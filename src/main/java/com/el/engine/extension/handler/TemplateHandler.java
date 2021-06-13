@@ -24,8 +24,14 @@ public class TemplateHandler {
     public TemplateHandler(ApplicationContext applicationContext, Template template) {
         Class<? extends Extension>[] classes = template.ofExtension();
         for (Class<? extends Extension> extensionClass : classes) {
+            if (Objects.isNull(extensionClass)) {
+                continue;
+            }
             Extension extension = applicationContext.getBean(extensionClass);
             Class<?> defaultExtension = findDefaultExtension(extensionClass);
+            if (Objects.isNull(defaultExtension)) {
+                throw new RuntimeException("MLE - ext default implementation undefined error "  +  extension.getClass());
+            }
             extensions.put(defaultExtension.getName(), extension);
             // 初始化扩展点的默认实现
             initDefaultExtension(extensionClass);
@@ -54,7 +60,7 @@ public class TemplateHandler {
         if (interfaces.length == 0) {
             Class<?> superclass = extensionClass.getSuperclass();
             if (superclass != null && superclass.equals(Object.class)) {
-                return null;
+                throw new RuntimeException("MLE - Template extension include unrealized Extension class");
             }
             return findDefaultExtension(superclass);
         }

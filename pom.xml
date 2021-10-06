@@ -6,7 +6,7 @@
 
     <groupId>com.el</groupId>
     <artifactId>middle-logic-engine</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1</version>
 
     <description>中台逻辑引擎</description>
 

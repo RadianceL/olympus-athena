@@ -1,6 +1,6 @@
 package com.el.engine.core.support;
 
-import com.el.engine.core.data.SceneConfiguration;
+import com.el.engine.core.config.SceneConfiguration;
 import com.el.engine.core.handle.process.StandardProcess;
 import com.el.engine.utils.UncheckCastUtil;
 import lombok.NonNull;

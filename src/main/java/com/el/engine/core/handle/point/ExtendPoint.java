@@ -14,7 +14,7 @@ public interface ExtendPoint {
      * 获取业务定义
      * @return      业务定义
      */
-    BusinessScheme vertifyBusinessScheme();
+    BusinessScheme vertfyBusinessScheme();
 
 }
 

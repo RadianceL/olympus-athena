@@ -113,7 +113,6 @@ public class EngineExtensionContext {
         }
     }
 
-
     public static void refreshNestedTemplateContext() {
 
     }

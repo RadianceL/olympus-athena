@@ -1,4 +1,4 @@
-package com.el.engine.core.data;
+package com.el.engine.core.config;
 
 import com.el.engine.extension.template.Template;
 import com.el.engine.utils.UncheckCastUtil;

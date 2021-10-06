@@ -1,6 +1,6 @@
 package com.el.engine.extension.init;
 
-import com.el.engine.core.data.EngineApplicationSystem;
+import com.el.engine.core.config.EngineApplicationSystem;
 import com.el.engine.core.support.EngineExtensionContext;
 import com.el.engine.extension.template.Template;
 import org.springframework.context.ApplicationContext;

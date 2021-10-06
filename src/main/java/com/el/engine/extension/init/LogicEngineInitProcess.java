@@ -1,12 +1,11 @@
 package com.el.engine.extension.init;
 
-import com.el.engine.core.data.EngineApplicationSystem;
-import com.el.engine.core.data.SceneConfiguration;
+import com.el.engine.core.config.EngineApplicationSystem;
+import com.el.engine.core.config.SceneConfiguration;
 import com.el.engine.core.support.EngineProcessContext;
 import com.el.engine.core.support.annotations.SceneProcess;
 import com.el.engine.core.support.annotations.SceneProcessTemplate;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.event.ContextRefreshedEvent;

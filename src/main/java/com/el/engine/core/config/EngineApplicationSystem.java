@@ -48,6 +48,7 @@ public class EngineApplicationSystem {
     }
 
     @SneakyThrows
+    @SuppressWarnings ("unchecked")
     public static void setSceneExtensionTemplateClasses(Set<String> extensionTemplateClasses) {
         List<Class<Template>> list = new ArrayList<>();
         for (String extensionTemplateClass : extensionTemplateClasses) {

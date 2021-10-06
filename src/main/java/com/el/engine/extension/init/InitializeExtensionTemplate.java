@@ -7,6 +7,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * 初始化扩展点 <br/>
  * since 2021/6/4
@@ -23,9 +25,10 @@ public class InitializeExtensionTemplate implements ApplicationListener<ContextR
             Class<Template>[] sceneExtensionTemplateClasses = EngineApplicationSystem.getSceneExtensionTemplateClasses();
             for (Class<Template> sceneExtensionTemplateClass : sceneExtensionTemplateClasses) {
                 try {
-                    Template template = sceneExtensionTemplateClass.newInstance();
+                    Template template = sceneExtensionTemplateClass.getDeclaredConstructor().newInstance();
                     EngineExtensionContext.addExtensionTemplate(template);
-                } catch (InstantiationException | IllegalAccessException e) {
+                } catch (InstantiationException | IllegalAccessException |
+                        InvocationTargetException | NoSuchMethodException e) {
                     throw new RuntimeException("MTL - ext template new instance error", e);
                 }
             }

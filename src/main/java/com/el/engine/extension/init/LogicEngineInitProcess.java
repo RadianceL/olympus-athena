@@ -39,8 +39,9 @@ public class LogicEngineInitProcess implements ApplicationListener<ContextRefres
         for (Class<?> targetClass : sceneProcessTemplateClasses) {
             Object bean;
             try {
-                bean = targetClass.newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
+                bean = targetClass.getDeclaredConstructor().newInstance();
+            } catch (InstantiationException | IllegalAccessException |
+                    NoSuchMethodException | InvocationTargetException e) {
                 // 实例化场景流程配置类异常，阻断启动
                 throw new RuntimeException("MLE - Calling scenario processing scheme configuration initialization exception,Block application", e);
             }

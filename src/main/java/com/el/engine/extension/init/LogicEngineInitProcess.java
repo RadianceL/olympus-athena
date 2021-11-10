@@ -6,6 +6,7 @@ import com.el.engine.core.support.EngineProcessContext;
 import com.el.engine.core.support.annotations.SceneProcess;
 import com.el.engine.core.support.annotations.SceneProcessTemplate;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -23,16 +24,14 @@ import java.util.Objects;
  */
 @Slf4j
 @Order(Integer.MIN_VALUE)
-public class LogicEngineInitProcess implements ApplicationListener<ContextRefreshedEvent> {
+public class LogicEngineInitProcess implements ApplicationListener<ApplicationReadyEvent> {
 
     @Override
-    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        ConfigurableApplicationContext applicationContext = (ConfigurableApplicationContext) contextRefreshedEvent.getApplicationContext();
-        if (applicationContext.getParent() == null) {
-            EngineProcessContext.setBeanDefinitionRegistry(applicationContext);
-            Class<?>[] sceneProcessTemplateClasses = EngineApplicationSystem.getSceneExtensionProcessClasses();
-            initSceneProcessTemplate(sceneProcessTemplateClasses);
-        }
+    public void onApplicationEvent(ApplicationReadyEvent contextRefreshedEvent) {
+        ConfigurableApplicationContext applicationContext = contextRefreshedEvent.getApplicationContext();
+        EngineProcessContext.setBeanDefinitionRegistry(applicationContext);
+        Class<?>[] sceneProcessTemplateClasses = EngineApplicationSystem.getSceneExtensionProcessClasses();
+        initSceneProcessTemplate(sceneProcessTemplateClasses);
     }
 
     private void initSceneProcessTemplate(Class<?>[] sceneProcessTemplateClasses) {

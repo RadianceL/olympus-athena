@@ -2,6 +2,8 @@ package com.el.engine.core.handle.process;
 
 import com.el.engine.core.support.EngineProcessContext;
 import com.el.engine.identity.scheme.BusinessScheme;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -15,6 +17,7 @@ import java.util.Objects;
 public class SceneProcessExecutor implements ProcessEngine {
 
     @Override
+    @Transactional(rollbackFor = Throwable.class, propagation = Propagation.SUPPORTS)
     public void start(BusinessScheme businessScheme, Object req, Object resp) {
         if (Objects.isNull(businessScheme)) {
             throw new RuntimeException("MLE - business scheme can not be null");

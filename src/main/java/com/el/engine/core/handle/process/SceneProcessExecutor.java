@@ -26,6 +26,9 @@ public class SceneProcessExecutor implements ProcessEngine {
                 EngineProcessContext.getEngineProcessDefine(businessScheme.getScene());
         for (StandardProcess<Object, Object> standardProcess : engineProcessDefine) {
             standardProcess.process(businessScheme, req, resp);
+            if (SceneProcessBreaker.getBreaker()) {
+                break;
+            }
         }
     }
 }

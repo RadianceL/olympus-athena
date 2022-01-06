@@ -1,4 +1,4 @@
-package com.el.engine.core.handle.point;
+package com.el.engine.core.handler.point;
 
 import com.el.engine.core.support.EngineExtensionContext;
 import com.el.engine.extension.Extension;

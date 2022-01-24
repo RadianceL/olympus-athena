@@ -2,7 +2,7 @@ package com.el.engine.core.config;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.el.engine.core.handle.process.StandardProcess;
+import com.el.engine.core.handler.process.StandardProcess;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;

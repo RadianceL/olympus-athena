@@ -1,4 +1,4 @@
-package com.el.engine.core.handle.point;
+package com.el.engine.core.handler.point;
 
 import com.el.engine.identity.scheme.BusinessScheme;
 

@@ -7,8 +7,10 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Objects;
 
 /**
  * 初始化扩展点 <br/>
@@ -23,6 +25,9 @@ public class InitializeExtensionTemplate implements ApplicationListener<Applicat
         ApplicationContext applicationContext = contextRefreshedEvent.getApplicationContext();
         EngineExtensionContext.setApplicationContext(applicationContext);
         Class<Template>[] sceneExtensionTemplateClasses = EngineApplicationSystem.getSceneExtensionTemplateClasses();
+        if (Objects.isNull(sceneExtensionTemplateClasses) || sceneExtensionTemplateClasses.length == 0) {
+            return;
+        }
         for (Class<Template> sceneExtensionTemplateClass : sceneExtensionTemplateClasses) {
             try {
                 Template template = sceneExtensionTemplateClass.getDeclaredConstructor().newInstance();

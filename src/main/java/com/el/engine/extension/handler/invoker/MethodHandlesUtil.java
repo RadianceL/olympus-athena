@@ -61,7 +61,7 @@ public class MethodHandlesUtil {
     /**
      * java9中的MethodHandles.lookup()方法返回的Lookup对象
      * 有权限访问specialCaller != lookupClass()的类
-     * 但是只能适用于接口, {@link java.lang.invoke.MethodHandles.Lookup#checkSpecialCaller}
+     * 但是只能适用于接口, {@link java.lang.invoke.MethodHandles.Lookup}
      */
     public static MethodHandles.Lookup lookup(Class<?> callerClass) {
         //使用反射,因为当前jdk可能不是java9或以上版本

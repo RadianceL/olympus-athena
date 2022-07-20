@@ -8,7 +8,7 @@
     <artifactId>middle-logic-engine</artifactId>
     <version>1.0.4</version>
 
-    <description>中台逻辑引擎</description>
+    <description>middle-logic-engine</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

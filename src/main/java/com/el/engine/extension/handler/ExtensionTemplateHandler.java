@@ -24,7 +24,6 @@ public class ExtensionTemplateHandler extends TemplateHandler implements Extensi
         this.extensionTemplate = extensionTemplate;
     }
 
-
     @Override
     public boolean adapterTemplate(BusinessScheme businessScheme) {
         return extensionTemplate.adapterTemplate(businessScheme);

@@ -9,6 +9,7 @@ import com.el.engine.identity.scheme.BusinessScheme;
  * @author eddie.lys
  */
 public interface ExtensionTemplate extends Template {
+
     /**
      * 判定是否适配当前模板
      * @return            是否适配当前模板
@@ -16,6 +17,7 @@ public interface ExtensionTemplate extends Template {
     default boolean adapterTemplate(BusinessScheme businessScheme) {
         return true;
     }
+
     /**
      * 获取该业务模版的上级关联模版
      * 注：该方法不建议使用，当业务系统足够大时会引起业务错乱

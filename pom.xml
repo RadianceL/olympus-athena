@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.el</groupId>
-    <artifactId>middle-logic-engine</artifactId>
+    <groupId>com.olympus</groupId>
+    <artifactId>olympus-athena</artifactId>
     <version>1.0.4</version>
 
-    <description>middle-logic-engine</description>
+    <description>olympus-athena</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

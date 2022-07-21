@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.el.engine.extension.init.InitializeExtensionTemplate
+  com.olympus.engine.extension.init.InitializeExtensionTemplate

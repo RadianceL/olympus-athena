@@ -30,7 +30,7 @@ public class ExtensionTemplateHandler extends TemplateHandler implements Extensi
     }
 
     @Override
-    public String ofBizChannel() {
-        return extensionTemplate.ofBizChannel();
+    public String[] ofBizChannels() {
+        return extensionTemplate.ofBizChannels();
     }
 }

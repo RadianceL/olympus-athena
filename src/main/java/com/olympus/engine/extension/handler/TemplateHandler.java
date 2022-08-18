@@ -77,6 +77,10 @@ public class TemplateHandler {
         return extensions.get(extClassName);
     }
 
+    public boolean containsExtension(String extClassName) {
+        return extensions.containsKey(extClassName);
+    }
+
     public Extension getDefaultExtension(String extClassName){
         return DefaultExtensionContext.getDefaultExtension(extClassName);
     }

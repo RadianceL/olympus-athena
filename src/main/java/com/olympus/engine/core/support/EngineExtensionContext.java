@@ -13,7 +13,10 @@ import com.olympus.engine.utils.UncheckCastUtil;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,11 +32,11 @@ public class EngineExtensionContext {
     /**
      * 扩展点模版缓存<业务渠道，模板定义>
      */
-    private static final Map<String, Template> ENGINE_TEMPLATE_MAP = new ConcurrentHashMap<>(32);
+    private static final Map<String, List<Template>> ENGINE_TEMPLATE_MAP = new ConcurrentHashMap<>(32);
     /**
      * 扩展点实例缓存<业务渠道，扩展点定义列表>
      */
-    private static final Map<String, TemplateHandler> ENGINE_EXTENSION_RUNNER_MAP = new ConcurrentHashMap<>(32);
+    private static final Map<String, List<TemplateHandler>> ENGINE_EXTENSION_RUNNER_MAP = new ConcurrentHashMap<>(32);
     /**
      * springBean容器
      */
@@ -55,61 +58,79 @@ public class EngineExtensionContext {
         if (Objects.isNull(applicationContext)) {
             throw new RuntimeException("MLE - application context is null error");
         }
-        if (Objects.nonNull(ENGINE_TEMPLATE_MAP.get(template.ofBizChannel()))) {
-            throw new RuntimeException("MLE - add template " + template.ofBizChannel() + " error, template definition conflict");
+        for (String bizChannel : template.ofBizChannels()) {
+            List<Template> templates = ENGINE_TEMPLATE_MAP.get(bizChannel);
+            if (!CollectionUtils.isEmpty(templates) && templates.contains(template)) {
+                throw new RuntimeException("MLE - add template " + template.getClass() + " error, template definition conflict");
+            } else if (CollectionUtils.isEmpty(templates)) {
+                templates.add(template);
+            } else {
+                templates = new ArrayList<>();
+                templates.add(template);
+                ENGINE_TEMPLATE_MAP.put(bizChannel, templates);
+            }
         }
-        // 放入一级缓存
-        ENGINE_TEMPLATE_MAP.put(template.ofBizChannel(), template);
         // 初始化模版定义
         initEngineExtensionRunner(template);
     }
 
     public static Extension getExtension(BusinessScheme businessScheme, String extClassName) {
-        TemplateHandler templateHandler = ENGINE_EXTENSION_RUNNER_MAP.get(businessScheme.getBiz());
-        if (Objects.isNull(templateHandler)) {
+        List<TemplateHandler> templateHandlerList = ENGINE_EXTENSION_RUNNER_MAP.get(businessScheme.getBiz());
+        if (CollectionUtils.isEmpty(templateHandlerList)) {
             return DefaultExtensionContext.getDefaultExtension(extClassName);
         }
-        if (templateHandler instanceof ExtensionTemplateHandler) {
-            ExtensionTemplateHandler extensionTemplateHandler = (ExtensionTemplateHandler) templateHandler;
-            if (extensionTemplateHandler.adapterTemplate(businessScheme)) {
-                return templateHandler.getExtension(extClassName);
-            }else {
-                return DefaultExtensionContext.getDefaultExtension(extClassName);
+        for (TemplateHandler templateHandler : templateHandlerList) {
+            if (templateHandler.containsExtension(extClassName)) {
+                continue;
             }
+            if (templateHandler instanceof ExtensionTemplateHandler) {
+                ExtensionTemplateHandler extensionTemplateHandler = (ExtensionTemplateHandler) templateHandlerList;
+                if (extensionTemplateHandler.adapterTemplate(businessScheme)) {
+                    return templateHandler.getExtension(extClassName);
+                }else {
+                    return DefaultExtensionContext.getDefaultExtension(extClassName);
+                }
+            }
+            return templateHandler.getExtension(extClassName);
         }
-        return templateHandler.getExtension(extClassName);
+        throw new RuntimeException("MLE - can not find extension is runner map");
     }
 
     private static void initEngineExtensionRunner(Template template) {
+        TemplateHandler templateHandler = null;
         if (template instanceof ExtensionTemplate) {
             // 标准扩展点模版
             ExtensionTemplate extensionTemplate = UncheckCastUtil.castUncheckedObject(template);
             if (Objects.isNull(extensionTemplate)) {
                 throw new RuntimeException("MLE - init Template has null, please check template config");
             }
-            ExtensionTemplateHandler extensionTemplateHandler =
+            templateHandler =
                     new ExtensionTemplateHandler(applicationContext, extensionTemplate);
-            String bizChannel = extensionTemplate.ofBizChannel();
-            ENGINE_EXTENSION_RUNNER_MAP.put(bizChannel, extensionTemplateHandler);
         }else if (template instanceof NestedTemplate) {
             // 嵌套扩展点模版
             NestedTemplate extensionTemplate = UncheckCastUtil.castUncheckedObject(template);
             if (Objects.isNull(extensionTemplate)) {
                 throw new RuntimeException("MLE - init Template has null, please check template config");
             }
-            NestedTemplateHandler extensionTemplateHandler =
+            templateHandler =
                     new NestedTemplateHandler(applicationContext, extensionTemplate);
-            String bizChannel = extensionTemplate.ofBizChannel();
-            ENGINE_EXTENSION_RUNNER_MAP.put(bizChannel, extensionTemplateHandler);
         }else {
             // 模版
             if (Objects.isNull(template)) {
                 throw new RuntimeException("MLE - init Template has null, please check template config");
             }
-            TemplateHandler extensionTemplateHandler =
+            templateHandler =
                     new TemplateHandler(applicationContext, template);
-            String bizChannel = template.ofBizChannel();
-            ENGINE_EXTENSION_RUNNER_MAP.put(bizChannel, extensionTemplateHandler);
+        }
+        String[] bizChannels = template.ofBizChannels();
+        for (String bizChannel : bizChannels) {
+            if (ENGINE_EXTENSION_RUNNER_MAP.containsKey(bizChannel)) {
+                ENGINE_EXTENSION_RUNNER_MAP.get(bizChannel).add(templateHandler);
+            }else {
+                List<TemplateHandler> templateHandlerList = new ArrayList<>();
+                templateHandlerList.add(templateHandler);
+                ENGINE_EXTENSION_RUNNER_MAP.put(bizChannel, templateHandlerList);
+            }
         }
     }
 

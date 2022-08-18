@@ -62,8 +62,6 @@ public class EngineExtensionContext {
             List<Template> templates = ENGINE_TEMPLATE_MAP.get(bizChannel);
             if (!CollectionUtils.isEmpty(templates) && templates.contains(template)) {
                 throw new RuntimeException("MLE - add template " + template.getClass() + " error, template definition conflict");
-            } else if (CollectionUtils.isEmpty(templates)) {
-                templates.add(template);
             } else {
                 templates = new ArrayList<>();
                 templates.add(template);

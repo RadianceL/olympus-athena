@@ -84,6 +84,11 @@ public class SceneConfiguration<Req, Resp> {
         this.tagMap = tagMap;
     }
 
+    public void addSceneProcess(Class<? extends StandardProcess<Req, Resp>> sceneClass, int order) {
+        this.sceneProcessList.add(order, sceneClass.getName());
+    }
+
+
     public void addSceneProcess(Class<? extends StandardProcess<Req, Resp>> sceneClass) {
         this.sceneProcessList.add(sceneClass.getName());
     }

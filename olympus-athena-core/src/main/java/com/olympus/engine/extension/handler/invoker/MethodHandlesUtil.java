@@ -9,9 +9,9 @@ import java.lang.reflect.Method;
 /**
  * jdk8中如果直接调用{@link MethodHandles#lookup()}获取到的{@link MethodHandles.Lookup}
  * <p>
- * 在调用方法 {@link MethodHandles.Lookup#findSpecial(java.lang.Class, java.lang.String, java.lang.invoke.MethodType, java.lang.Class)}
+ * 在调用方法 {@link MethodHandles.Lookup#findSpecial(Class, String, java.lang.invoke.MethodType, Class)}
  * <p>
- * 和{@link MethodHandles.Lookup#unreflectSpecial(java.lang.reflect.Method, java.lang.Class)}
+ * 和{@link MethodHandles.Lookup#unreflectSpecial(Method, Class)}
  * 获取父类方法句柄{@link MethodHandle}时
  * <p>
  * 可能出现权限不够, 抛出如下异常, 所以通过反射创建{@link MethodHandles.Lookup}解决该问题.
@@ -61,7 +61,7 @@ public class MethodHandlesUtil {
     /**
      * java9中的MethodHandles.lookup()方法返回的Lookup对象
      * 有权限访问specialCaller != lookupClass()的类
-     * 但是只能适用于接口, {@link java.lang.invoke.MethodHandles.Lookup}
+     * 但是只能适用于接口, {@link MethodHandles.Lookup}
      */
     public static MethodHandles.Lookup lookup(Class<?> callerClass) {
         //使用反射,因为当前jdk可能不是java9或以上版本

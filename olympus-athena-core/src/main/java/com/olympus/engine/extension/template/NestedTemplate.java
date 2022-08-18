@@ -6,7 +6,7 @@ package com.olympus.engine.extension.template;
  *
  * @author eddie.lys
  */
-public interface NestedTemplate extends Template{
+public interface NestedTemplate extends Template {
 
     /**
      * 获取关联的扩展点模版定义

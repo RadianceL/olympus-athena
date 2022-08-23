@@ -1,12 +1,7 @@
 package com.el.test.service;
 
-import com.el.test.config.process.data.Req;
-import com.el.test.config.process.data.Resp;
 import com.olympus.engine.core.handler.exector.ProcessEngine;
 import com.olympus.engine.core.handler.exector.SceneProcessExecutor;
-import com.olympus.engine.identity.scheme.BusinessScheme;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.annotation.Order;

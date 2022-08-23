@@ -82,7 +82,7 @@ public class EngineExtensionContext {
                 continue;
             }
             if (templateHandler instanceof ExtensionTemplateHandler) {
-                ExtensionTemplateHandler extensionTemplateHandler = (ExtensionTemplateHandler) templateHandlerList;
+                ExtensionTemplateHandler extensionTemplateHandler = (ExtensionTemplateHandler) templateHandler;
                 if (extensionTemplateHandler.adapterTemplate(businessScheme)) {
                     return templateHandler.getExtension(extClassName);
                 }else {

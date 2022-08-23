@@ -12,8 +12,9 @@ public interface StandardProcess<Req, Resp> {
 
     /**
      * 扩展点任务处理
-     * @param request       请求参数
-     * @param response      处理后参数
+     * @param businessScheme        业务模型
+     * @param request               请求参数
+     * @param response              处理后参数
      */
     void process(BusinessScheme businessScheme, Req request, Resp response);
 }

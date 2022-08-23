@@ -18,5 +18,9 @@ import java.lang.annotation.*;
 @Import(LogicEnginePostProcess.class)
 public @interface EnableExtendPointAutoConfiguration {
 
+    /**
+     * 扩展点配置对象
+     * @return      配置清单
+     */
     Class<?>[] value();
 }

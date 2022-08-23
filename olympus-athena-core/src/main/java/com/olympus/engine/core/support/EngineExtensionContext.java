@@ -78,7 +78,7 @@ public class EngineExtensionContext {
             return DefaultExtensionContext.getDefaultExtension(extClassName);
         }
         for (TemplateHandler templateHandler : templateHandlerList) {
-            if (templateHandler.containsExtension(extClassName)) {
+            if (!templateHandler.containsExtension(extClassName)) {
                 continue;
             }
             if (templateHandler instanceof ExtensionTemplateHandler) {

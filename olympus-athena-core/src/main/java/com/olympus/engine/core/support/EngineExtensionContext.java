@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * 引擎流程上下文 <br/>
@@ -77,10 +78,11 @@ public class EngineExtensionContext {
         if (CollectionUtils.isEmpty(templateHandlerList)) {
             return DefaultExtensionContext.getDefaultExtension(extClassName);
         }
-        for (TemplateHandler templateHandler : templateHandlerList) {
-            if (!templateHandler.containsExtension(extClassName)) {
-                continue;
-            }
+        // filter contains `extClassName` Handler
+        List<TemplateHandler> filterHasExtTemplate = templateHandlerList.stream()
+                .filter(templateHandler -> templateHandler.containsExtension(extClassName))
+                .collect(Collectors.toList());
+        for (TemplateHandler templateHandler : filterHasExtTemplate) {
             if (templateHandler instanceof ExtensionTemplateHandler) {
                 ExtensionTemplateHandler extensionTemplateHandler = (ExtensionTemplateHandler) templateHandler;
                 if (extensionTemplateHandler.adapterTemplate(businessScheme)) {

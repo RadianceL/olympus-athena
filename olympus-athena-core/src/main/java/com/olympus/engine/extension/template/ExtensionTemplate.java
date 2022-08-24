@@ -4,6 +4,7 @@ import com.olympus.engine.identity.scheme.BusinessScheme;
 
 /**
  * 扩展点模版 <br/>
+ * 当相同扩展点存在多个扩展点实现，只执行第一个
  * since 2021/4/27
  *
  * @author eddie.lys
@@ -18,13 +19,4 @@ public interface ExtensionTemplate extends Template {
         return true;
     }
 
-    /**
-     * 获取该业务模版的上级关联模版
-     * 注：该方法不建议使用，当业务系统足够大时会引起业务错乱
-     * @return             嵌套模板
-     */
-    default Class<? extends NestedTemplate> ifParentTemplateExist() {
-        // 当该方法返回null时，不具备向上查询能力，不为null时抛出警告
-        return null;
-    }
 }

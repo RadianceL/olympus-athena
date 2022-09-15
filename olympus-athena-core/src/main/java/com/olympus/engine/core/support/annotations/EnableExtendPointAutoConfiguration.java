@@ -11,10 +11,10 @@ import java.lang.annotation.*;
  *
  * @author eddie.lys
  */
+@Inherited
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Inherited
 @Import(LogicEnginePostProcess.class)
 public @interface EnableExtendPointAutoConfiguration {
 

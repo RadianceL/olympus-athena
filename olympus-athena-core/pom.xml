@@ -7,11 +7,11 @@
     <parent>
         <artifactId>olympus-athena</artifactId>
         <groupId>com.olympus</groupId>
-        <version>1.0.5-SNAPSHOT</version>
+        <version>1.0.5</version>
     </parent>
 
     <artifactId>olympus-athena-core</artifactId>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.0.5</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

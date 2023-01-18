@@ -17,21 +17,17 @@ import org.springframework.stereotype.Service;
  * @author eddie.lys
  */
 @Service
-@Order(Integer.MIN_VALUE)
-public class Tester implements ApplicationListener<ApplicationReadyEvent> {
+public class Tester {
 
-    private final ProcessEngine processEngine  = SceneProcessExecutor.getSceneProcessExecutorInstance();
-
-    @Override
-    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
+    public static void test() {
         BusinessScheme a = BusinessScheme.of("全链路流转流程", "现场采购发起");
         Req req = new Req();
         Resp resp = new Resp();
-        processEngine.start(a, req, resp);
+        SceneProcessExecutor.getSceneProcessExecutorInstance().start(a, req, resp);
         System.out.println(resp.getResult());
 
         BusinessScheme b = BusinessScheme.of("全链路流转流程", "P担");
-        processEngine.start(b, req, resp);
+        SceneProcessExecutor.getSceneProcessExecutorInstance().start(b, req, resp);
         System.out.println(resp.getResult());
     }
 }

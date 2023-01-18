@@ -3,9 +3,11 @@ package com.olympus.engine.extension.init;
 import com.olympus.engine.core.config.EngineApplicationSystem;
 import com.olympus.engine.core.support.EngineExtensionContext;
 import com.olympus.engine.extension.template.Template;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
+import org.springframework.core.annotation.Order;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
@@ -16,6 +18,7 @@ import java.util.Objects;
  *
  * @author eddie.lys
  */
+@AutoConfigureOrder(Integer.MIN_VALUE)
 public class InitializeExtensionTemplate implements ApplicationListener<ApplicationReadyEvent> {
 
     @Override

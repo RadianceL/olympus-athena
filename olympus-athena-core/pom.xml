@@ -7,11 +7,11 @@
     <parent>
         <artifactId>olympus-athena</artifactId>
         <groupId>com.olympus</groupId>
-        <version>1.0.6</version>
+        <version>1.2.0</version>
     </parent>
 
     <artifactId>olympus-athena-core</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -28,19 +28,19 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
-            <version>5.3.22</version>
+            <version>6.0.6</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>2.0.22</version>
+            <version>2.0.32</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
+            <version>1.18.26</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

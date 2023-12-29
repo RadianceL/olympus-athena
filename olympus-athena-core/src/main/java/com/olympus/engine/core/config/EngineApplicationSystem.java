@@ -2,6 +2,7 @@ package com.olympus.engine.core.config;
 
 import com.olympus.engine.extension.template.Template;
 import com.olympus.engine.utils.UncheckCastUtil;
+import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.util.ArrayList;
@@ -23,13 +24,11 @@ public class EngineApplicationSystem {
     /**
      * 场景模版配置类
      */
+    @Getter
     private static Class<Template>[] sceneExtensionTemplateClasses;
 
+    @Getter
     private static Class<?>[] sceneExtensionProcessClasses;
-
-    public static Class<?>[] getSceneExtensionProcessClasses() {
-        return sceneExtensionProcessClasses;
-    }
 
     public static void setSceneExtensionProcessClasses(Class<?>[] sceneExtensionProcessClasses) {
         EngineApplicationSystem.sceneExtensionProcessClasses = sceneExtensionProcessClasses;
@@ -41,10 +40,6 @@ public class EngineApplicationSystem {
 
     public static String getApplicationBasePackage() {
         return basePackage;
-    }
-
-    public static Class<Template>[] getSceneExtensionTemplateClasses() {
-        return sceneExtensionTemplateClasses;
     }
 
     @SneakyThrows

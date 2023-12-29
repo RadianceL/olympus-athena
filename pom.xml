@@ -7,7 +7,7 @@
     <groupId>com.olympus</groupId>
     <artifactId>olympus-athena</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
 
     <modules>
         <module>olympus-athena-core</module>
@@ -18,7 +18,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
 
-        <spring-boot.version>2.7.5</spring-boot.version>
+        <spring-boot.version>3.2.1</spring-boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>

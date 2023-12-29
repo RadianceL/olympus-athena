@@ -3,6 +3,8 @@ package com.olympus.engine.core.config;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.olympus.engine.core.handler.process.StandardProcess;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
@@ -17,6 +19,8 @@ public class SceneConfiguration<Req, Resp> {
     /**
      * 场景名称 继承自注解无需设置
      */
+    @Setter
+    @Getter
     private String scene;
     /**
      * 是否懒加载
@@ -27,6 +31,8 @@ public class SceneConfiguration<Req, Resp> {
     /**
      * 描述 继承自注解无需设置
      */
+    @Getter
+    @Setter
     private String desc;
     /**
      * 标记map
@@ -35,23 +41,8 @@ public class SceneConfiguration<Req, Resp> {
     /**
      * 场景处理清单
      */
+    @Getter
     private final List<String> sceneProcessList = new ArrayList<>();
-
-    public String getScene() {
-        return scene;
-    }
-
-    public void setScene(String scene) {
-        this.scene = scene;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
 
     public Boolean getLazyLoading() {
         return isLazyLoading;
@@ -91,10 +82,6 @@ public class SceneConfiguration<Req, Resp> {
 
     public void addSceneProcess(Class<? extends StandardProcess<Req, Resp>> sceneClass) {
         this.sceneProcessList.add(sceneClass.getName());
-    }
-
-    public List<String> getSceneProcessList() {
-        return sceneProcessList;
     }
 
     @Override
